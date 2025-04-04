@@ -4,6 +4,11 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -15,6 +20,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        
+        // Initialize BottomNavigationView
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+
+        // Find the NavController (Must be linked with a FragmentContainerView in XML)
+        NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
+
+        // Connect BottomNavigationView with NavController
+        NavigationUI.setupWithNavController(bottomNav, navController);
     }
 }
