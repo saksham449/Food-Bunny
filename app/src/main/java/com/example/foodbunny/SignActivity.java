@@ -27,6 +27,10 @@ public class SignActivity extends AppCompatActivity {
             Intent intent = new Intent(SignActivity.this, LoginActivity.class);
             startActivity(intent);
         });
+        binding.createaccountbutton.setOnClickListener(view -> {
+            Intent intent = new Intent(SignActivity.this, ChooseLocationActivity.class);
+            startActivity(intent);
+        });
 
     }
 }
