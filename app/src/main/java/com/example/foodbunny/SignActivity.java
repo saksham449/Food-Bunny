@@ -10,26 +10,23 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.foodbunny.databinding.ActivityLoginBinding;
-import com.example.foodbunny.databinding.ActivityStartBinding;
+import com.example.foodbunny.databinding.ActivitySignBinding;
 
-public class LoginActivity extends AppCompatActivity {
-    private ActivityLoginBinding binding; // Correct way to declare binding in Java
-
+public class SignActivity extends AppCompatActivity {
+    private ActivitySignBinding binding; // Correct way to declare binding in Java
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_sign);
         // Initialize View Binding
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        binding = ActivitySignBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         // Set onClickListener for the button
-        binding.donthavebutton.setOnClickListener(view -> {
-            Intent intent = new Intent(LoginActivity.this, SignActivity.class);
+        binding.alreadyhavebutton.setOnClickListener(view -> {
+            Intent intent = new Intent(SignActivity.this, LoginActivity.class);
             startActivity(intent);
         });
-
-
 
     }
 }
