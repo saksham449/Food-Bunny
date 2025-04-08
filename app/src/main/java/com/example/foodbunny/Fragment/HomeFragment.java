@@ -7,49 +7,63 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.foodbunny.R;
-import com.example.foodbunny.databinding.FragmentHomeBinding;
+
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.example.foodbunny.R;
+import com.example.foodbunny.adapter.PopularAdapter; // ✅ Make sure adapter is in this package
+import com.example.foodbunny.databinding.FragmentHomeBinding;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class HomeFragment extends Fragment {
-    private FragmentHomeBinding binding; // View binding object for this fragment
+    private FragmentHomeBinding binding;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout using ViewBinding
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        return binding.getRoot(); // Return the root view
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Creating an ArrayList to store slide images
+        // Image slider setup
         ArrayList<SlideModel> imageList = new ArrayList<>();
-
-        // Adding images to the slider list
         imageList.add(new SlideModel(R.drawable.banner1, ScaleTypes.FIT));
         imageList.add(new SlideModel(R.drawable.banner2, ScaleTypes.FIT));
         imageList.add(new SlideModel(R.drawable.banner3, ScaleTypes.FIT));
-
-        // Getting reference to the ImageSlider using ViewBinding
         ImageSlider imageSlider = binding.imageSlider;
-
-        // Setting the images in the ImageSlider
         imageSlider.setImageList(imageList);
+
+        // RecyclerView data
+        List<String> foodName = Arrays.asList("Burger", "Sandwich", "Momo", "Item","Burger", "Sandwich", "Momo", "Item");
+        List<String> price = Arrays.asList("$5", "$7", "$8", "$10","$5", "$7", "$8", "$10");
+        List<Integer> populerFoodImages = Arrays.asList(
+                R.drawable.menu1,
+                R.drawable.menu2,
+                R.drawable.menu3,
+                R.drawable.menu4,
+                R.drawable.menu1,
+                R.drawable.menu2,
+                R.drawable.menu3,
+                R.drawable.menu4
+        );
+
+        // Adapter setup
+        PopularAdapter adapter = new PopularAdapter(foodName, price, populerFoodImages);
+        binding.PopularRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.PopularRecyclerView.setAdapter(adapter);
     }
 }

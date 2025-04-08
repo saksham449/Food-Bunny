@@ -1,5 +1,6 @@
 package com.example.foodbunny;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -40,6 +41,11 @@ public class ChooseLocationActivity extends AppCompatActivity {
 
         // Step 4: Set the adapter to the AutoCompleteTextView
         autoCompleteTextView.setAdapter(adapter);
+        // Set onClickListener for the button
+        binding.nexttoloc.setOnClickListener(view -> {
+            Intent intent = new Intent(ChooseLocationActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
 
     }
 }
