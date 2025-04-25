@@ -1,2 +1,6 @@
-package com.example.foodbunny;public class MenuBottomSheetFragment {
+package com.example.foodbunny;
+
+import android.app.Activity;
+
+public class MenuBottomSheetFragment extends Activity {
 }

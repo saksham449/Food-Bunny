@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
+    android:background="@color/white"
     tools:context=".Fragment.HomeFragment">
 
     <androidx.cardview.widget.CardView
@@ -15,6 +15,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="5dp"
+        android:background="@color/white"
         android:padding="16dp"
         app:cardCornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView18"
+        app:layout_constraintTop_toBottomOf="@+id/viewAllMenu"
         tools:layout_editor_absoluteX="-16dp" />
 
     <TextView
@@ -48,11 +49,12 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="Popular"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <TextView
-        android:id="@+id/textView18"
+        android:id="@+id/viewAllMenu"
         android:layout_width="80dp"
         android:layout_height="25dp"
         android:layout_marginTop="16dp"
@@ -61,6 +63,7 @@
         android:elevation="5dp"
         android:text="View Menu"
         android:textAlignment="center"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

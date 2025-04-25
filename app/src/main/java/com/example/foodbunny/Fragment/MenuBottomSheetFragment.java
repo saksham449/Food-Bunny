@@ -1,66 +1,59 @@
 package com.example.foodbunny.Fragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.foodbunny.R;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.example.foodbunny.databinding.FragmentMenuBottomSheetBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MenuBottomSheetFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MenuBottomSheetFragment extends Fragment {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class MenuBottomSheetFragment extends BottomSheetDialogFragment {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    // ViewBinding object for the bottom sheet layout
+    private FragmentMenuBottomSheetBinding binding;
 
-    public MenuBottomSheetFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MenuBottomSheetFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MenuBottomSheetFragment newInstance(String param1, String param2) {
-        MenuBottomSheetFragment fragment = new MenuBottomSheetFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    // Called when the fragment is being created (before UI is created)
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        Toast.makeText(getContext(), "Bottom sheet opened", Toast.LENGTH_SHORT).show();
     }
 
+    // Called to inflate the layout for this fragment
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_menu_bottom_sheet2, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        // Inflate the layout using ViewBinding
+        binding = FragmentMenuBottomSheetBinding.inflate(inflater, container, false);
+        return binding.getRoot(); // Return the root view of the binding
     }
+
+    // Optional: Static factory methods or constants can be added here
+    public static MenuBottomSheetFragment newInstance() {
+        return new MenuBottomSheetFragment();
+    }
+
+    /*
+     * Error in the original code:
+     *
+     * - The `MenuBottomSheetFragment` class was NOT declared as `public static`, and the fragment class needs
+     *   to be either public or static to be properly recreated during state restoration (e.g., screen rotations).
+     *
+     * - If it were a static inner class, it would need to be declared as `public static` to avoid memory leaks
+     *   or issues when the fragment is re-created from instance state.
+     *
+     * Fix:
+     * - Change the class declaration to just `public class MenuBottomSheetFragment` because it is not a nested class.
+     * - The `newInstance()` method can stay as `static` (a common practice for creating new instances of fragments).
+     *
+     * Final Code:
+     * - The `static` modifier is not necessary on the fragment class itself, but it can be used in methods like `newInstance()`
+     *   to create fragment instances.
+     */
 }

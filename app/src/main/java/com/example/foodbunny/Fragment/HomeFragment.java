@@ -1,5 +1,6 @@
 package com.example.foodbunny.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -7,13 +8,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.example.foodbunny.LoginActivity;
 import com.example.foodbunny.R;
+import com.example.foodbunny.SignActivity;
 import com.example.foodbunny.adapter.PopularAdapter; // ✅ Make sure adapter is in this package
 import com.example.foodbunny.databinding.FragmentHomeBinding;
+
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +38,15 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+        // Set onClickListener for the viewFullMEnu button
+        binding.viewAllMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MenuBottomSheetFragment bottomSheetDialog = new MenuBottomSheetFragment();
+                bottomSheetDialog.show(getParentFragmentManager(), "test");
+            }
+        });
+
         return binding.getRoot();
     }
 
