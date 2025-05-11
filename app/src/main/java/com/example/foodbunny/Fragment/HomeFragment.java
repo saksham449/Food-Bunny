@@ -8,18 +8,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.example.foodbunny.LoginActivity;
 import com.example.foodbunny.R;
 import com.example.foodbunny.SignActivity;
-import com.example.foodbunny.adapter.PopularAdapter; // ✅ Make sure adapter is in this package
+import com.example.foodbunny.adapter.PopularAdapter;
 import com.example.foodbunny.databinding.FragmentHomeBinding;
-
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,12 +36,30 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        // Set onClickListener for the viewFullMEnu button
+
+        // ❌ POTENTIAL ISSUE:
+        // Using getParentFragmentManager() might not work properly if this fragment is nested.
+        // In that case, use getChildFragmentManager() instead.
+
+        // ❌ ANOTHER POSSIBLE CAUSE OF CRASH:
+        // If you press the button multiple times quickly, the bottom sheet tries to open again
+        // while it's still being displayed — this causes an IllegalStateException: "Fragment already added".
+
+        // ✅ FIX: Use newInstance() method and optional null-check before showing
         binding.viewAllMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // ❌ You created it directly (not using newInstance()), which is fine,
+                // but could lead to problems if later arguments or state handling is needed.
+
                 MenuBottomSheetFragment bottomSheetDialog = new MenuBottomSheetFragment();
+
+                // ❌ This line works ONLY if the fragment isn't nested.
+                // ✅ FIX: Use getChildFragmentManager() if needed or add a tag check.
+
                 bottomSheetDialog.show(getParentFragmentManager(), "test");
+                // Use: getChildFragmentManager() if nested
+                // Add null-check: if (getParentFragmentManager().findFragmentByTag("test") == null)
             }
         });
 

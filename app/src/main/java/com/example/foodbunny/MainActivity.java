@@ -2,12 +2,17 @@ package com.example.foodbunny;
 
 import android.os.Bundle;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.foodbunny.Fragment.MenuBottomSheetFragment;
+import com.example.foodbunny.databinding.ActivityMainBinding;
 
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -22,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Initialize BottomNavigationView
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+
 
         // Find the NavController (Must be linked with a FragmentContainerView in XML)
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
