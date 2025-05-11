@@ -1,66 +1,133 @@
 package com.example.foodbunny.Fragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.foodbunny.R;
+import com.example.foodbunny.adapter.MenuAdapter;
+import com.example.foodbunny.databinding.FragmentSearchBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class SearchFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentSearchBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    // Original full menu data
+    private final ArrayList<String> originalMenuFoodName = new ArrayList<>(Arrays.asList(
+            "Burger", "Sandwich", "Momo", "Item", "Sandwich", "Momo",
+            "Burger", "Sandwich", "Momo", "Item", "Sandwich", "Momo"
+    ));
+
+    private final ArrayList<String> originalMenuItemPrice = new ArrayList<>(Arrays.asList(
+            "₹5", "₹6", "₹8", "₹9", "₹10", "₹10",
+            "₹5", "₹6", "₹8", "₹9", "₹10", "₹10"
+    ));
+
+    private final ArrayList<Integer> originalMenuImage = new ArrayList<>(Arrays.asList(
+            R.drawable.menu2, R.drawable.menu2, R.drawable.menu2,
+            R.drawable.menu2, R.drawable.menu2, R.drawable.menu2,
+            R.drawable.menu2, R.drawable.menu2, R.drawable.menu2,
+            R.drawable.menu2, R.drawable.menu2, R.drawable.menu2
+    ));
+
+    // Filtered list for search results
+    private final ArrayList<String> filteredMenuFoodName = new ArrayList<>();
+    private final ArrayList<String> filteredMenuItemPrice = new ArrayList<>();
+    private final ArrayList<Integer> filteredMenuImage = new ArrayList<>();
+
+    private MenuAdapter adapter;
 
     public SearchFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        return new SearchFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        // You can handle any logic here that should run before view creation
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+
+        // ViewBinding setup
+        binding = FragmentSearchBinding.inflate(inflater, container, false);
+
+        // Show all items initially
+        showAllMenu();
+
+        // Initialize adapter with filtered data
+        adapter = new MenuAdapter(filteredMenuFoodName, filteredMenuItemPrice, filteredMenuImage);
+
+        // Set layout manager
+        binding.MenuRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        // Set adapter to RecyclerView
+        binding.MenuRecyclerView.setAdapter(adapter);
+
+        // Setup SearchView listener
+        setupSearchView();
+
+        // Return the fragment view
+        return binding.getRoot();
+    }
+
+    // Display all menu items
+    private void showAllMenu() {
+        filteredMenuFoodName.clear();
+        filteredMenuItemPrice.clear();
+        filteredMenuImage.clear();
+
+        filteredMenuFoodName.addAll(originalMenuFoodName);
+        filteredMenuItemPrice.addAll(originalMenuItemPrice);
+        filteredMenuImage.addAll(originalMenuImage);
+    }
+
+    // Configure search functionality
+    private void setupSearchView() {
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterMenuItems(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterMenuItems(newText);
+                return true;
+            }
+        });
+    }
+
+    // Filter menu items based on search query
+    private void filterMenuItems(String query) {
+        filteredMenuFoodName.clear();
+        filteredMenuItemPrice.clear();
+        filteredMenuImage.clear();
+
+        for (int i = 0; i < originalMenuFoodName.size(); i++) {
+            String foodName = originalMenuFoodName.get(i);
+            if (foodName.toLowerCase().contains(query.toLowerCase())) {
+                filteredMenuFoodName.add(foodName);
+                filteredMenuItemPrice.add(originalMenuItemPrice.get(i));
+                filteredMenuImage.add(originalMenuImage.get(i));
+            }
+        }
+
+        adapter.notifyDataSetChanged();
     }
 }
